@@ -44,12 +44,15 @@ namespace LuduStack.Web.Middlewares
                 { "storage", "*" },
                 { "user", "*" },
                 { "test", "*" },
+                { "go", "*" },
 
                 { "*", "new" },
+                { "*", "add" },
                 { "*", "help" },
 
                 { "*", "edit" },
                 { "*", "delete" },
+                { "*", "save" },
 
                 { "account", "lockout" },
                 { "account", "externallogin" },
@@ -111,7 +114,26 @@ namespace LuduStack.Web.Middlewares
                 { "localization", "exportxml" },
                 { "localization", "exportcontributors" },
                 { "localization", "review" },
-                { "localization", "getterms" }
+                { "localization", "getterms" },
+
+                { "course", "list" },
+                { "course", "listbyme" },
+                { "course", "listmine" },
+                { "course", "addcourse" },
+                { "course", "savecourse" },
+                { "course", "details" },
+                { "course", "listplans" },
+                { "course", "listplansforedit" },
+                { "study", "listmymentors" },
+                { "study", "listmystudents" },
+
+                { "giveaway", "savegiveaway" },
+                { "giveaway", "listbyme" },
+                { "giveaway", "details" },
+                { "giveaway", "youarein" },
+                { "giveaway", "manage" },
+                { "giveaway", "emailconfirmation" },
+                { "giveaway", "terms" },
             };
         }
 
@@ -218,7 +240,14 @@ namespace LuduStack.Web.Middlewares
                     string methodName = actionName.Equals("index") ? string.Empty : actionName;
                     if (string.IsNullOrWhiteSpace(methodName))
                     {
-                        sitemapContent += string.Format("<loc>{0}/{1}/</loc>", _rootUrl.Trim('/'), controllerName.Trim('/'));
+                        if (controllerName.Equals("home") && actionName.Equals("index"))
+                        {
+                            sitemapContent += string.Format("<loc>{0}/</loc>", _rootUrl.Trim('/'));
+                        }
+                        else
+                        {
+                            sitemapContent += string.Format("<loc>{0}/{1}/</loc>", _rootUrl.Trim('/'), controllerName.Trim('/'));
+                        }
                     }
                     else
                     {

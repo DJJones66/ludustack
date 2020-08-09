@@ -28,6 +28,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using WebEssentials.AspNetCore.Pwa;
 
 namespace LuduStack.Web
 {
@@ -118,7 +119,7 @@ namespace LuduStack.Web
 
             services.AddMemoryCache();
 
-            services.AddProgressiveWebApp();
+            services.AddProgressiveWebApp(new PwaOptions { EnableCspNonce = false });
 
             services.AddTransient<ICookieMgrService, CookieMgrService>();
 
@@ -176,6 +177,13 @@ namespace LuduStack.Web
             provider.Mappings[".webmanifest"] = "application/manifest+json";
             provider.Mappings[".vtt"] = "text/vtt";
 
+            RewriteOptions rewriteOptions = new RewriteOptions()
+                .AddRedirectToHttps()
+                .Add(new NonWwwRule())
+                .AddRedirectToWwwPermanent();
+
+            app.UseRewriter(rewriteOptions);
+
             app.UseStaticFiles(new StaticFileOptions()
             {
                 ContentTypeProvider = provider,
@@ -201,13 +209,6 @@ namespace LuduStack.Web
             app.UseAuthorization();
 
             app.UseSession();
-
-            RewriteOptions rewriteOptions = new RewriteOptions()
-                .AddRedirectToHttps()
-                .Add(new NonWwwRule())
-                .AddRedirectToWwwPermanent();
-
-            app.UseRewriter(rewriteOptions);
 
             app.UseSitemapMiddleware();
 

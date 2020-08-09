@@ -85,6 +85,11 @@ namespace LuduStack.Web.Controllers
             return ViewComponent("Counters", new { qtd = 3 });
         }
 
+        public IActionResult GameIdea()
+        {
+            return ViewComponent("GameIdea");
+        }
+
         public IActionResult Notifications()
         {
             return ViewComponent("Notification", new { qtd = 5 });
@@ -242,7 +247,7 @@ namespace LuduStack.Web.Controllers
                     "Cache management"
                 }));
 
-            model.Items.Add(GenerateTimeLineItem(new DateTime(2019, 02, 01), "fas fa-globe", "success", "Febuary 2019", "Some tweaks", "LuduStack is for everyone!", new List<string>() {
+            model.Items.Add(GenerateTimeLineItem(new DateTime(2019, 02, 01), "fas fa-globe", "success", "February 2019", "Some tweaks", "LuduStack is for everyone!", new List<string>() {
                     "Image size descriptions",
                     "Accessibility improvements",
                     "Images on CDN"
@@ -328,10 +333,19 @@ namespace LuduStack.Web.Controllers
 
             model.Items.Add(GenerateTimeLineItem(new DateTime(2020, 06, 01), "fas fa-rocket", "secondary", "June 2020", "New name!", "Now we are called LUDUSTACK! The one stop place for game developers."));
 
+            model.Items.Add(GenerateTimeLineItem(new DateTime(2020, 07, 01), "fas fa-fw fa-ticket-alt", "success", "July 2020", "It is time for sweepstakes!", "You can now run your own giveaways!", new List<string>() {
+                    "GDPR compliant",
+                    "Email confirmation",
+                    "Tracked link sharing for more chances to win",
+                    "Daily entries"
+            }));
+
+            model.Items.Add(GenerateTimeLineItem(new DateTime(2020, 08, 01), "fas fa-dice", "primary", "August 2020", "New Ideas!", "Random Game Idea added to the front page to overcome your creative block!"));
+
             // Future
             model.Items.Add(GenerateTimeLineItem(new DateTime(2020, 11, 01), "fas fa-bug", "danger", "November 2020", "Open Beta", "At this point, we hope to have a consistent beta tester base so we can polish the platform and fix every possible bug tha shows up."));
 
-            model.Items.Add(GenerateTimeLineItem(new DateTime(2021, 01, 01), "fas fa-star", "success", "January 2021", "Launch day!", "This is the scheduled launch day. On this day, all the core features will be implented."));
+            model.Items.Add(GenerateTimeLineItem(new DateTime(2021, 01, 01), "fas fa-star", "success", "January 2021", "Launch day!", "This is the scheduled launch day. On this day, all the core features will be implemented."));
 
             model.Items = model.Items.OrderBy(x => x.Date).ToList();
             return model;

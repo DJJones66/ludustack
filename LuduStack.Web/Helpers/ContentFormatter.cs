@@ -1,5 +1,6 @@
 ﻿using LuduStack.Domain.Core.Enums;
 using System;
+using System.Linq;
 using System.Text.RegularExpressions;
 using System.Web;
 
@@ -17,15 +18,19 @@ namespace LuduStack.Web.Helpers
             //group 1 figure class="xxxx">
             //group 2 oembed start
             //group 3 <img src="
-            //group 5 
+            //group 5
             //group 6 abre parenteses
-            //group 7 indica url já formatada
+            //group 7 <a href=" indica url já formatada
             //group 8 url
+            //group 9 path example: /path/to/folder/before/resource
             //group 10 fecha parenteses
-            //group 11 oembed ending
-            //group 11 figure ending
+            //group 11 >
+            //group 12 figure ending
+            //group 13 </a>
+            //group 17 </oembed>
+            //group 18 </figure>
 
-            string patternUrl = @"(<figure class="".+"">)?(<oembed url=""|<div data-oembed-url=""|<oembed>)?(<img(.?)?(data-)?src="")?(\()?(\<a href\=\"")?([(http(s)?):\/\/(www\.)?a-zA-Z0-9\-@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=\,]*)\/[\w|\?|\=|\&|\;|\-\%\.]+)""?(\))?(<\/oembed>|><\/oembed><\/figure>)?(><\/figure>)?(.>)?";
+            string patternUrl = @"(<figure class="".+?"">)?(<oembed url=""|<div data-oembed-url=""|<oembed>)?(<img(.?)?(data-)?src="")?(\()?(\<a href\=\"")?([(http(s)?:\/\/)?(www\.)?a-zA-Z0-9\-@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=\,\;]*)(\/[\w|\?|\=|\&|\;|\-\%\.]+)?)(\/)?""?(>)?([(http(s)?:\/\/)?(www\.)?a-zA-Z0-9\-@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=\,\;]*)(\/[\w|\?|\=|\&|\;|\-\%\.]+)?)?(\/)?( )?(<\/a>)?(\))?(<\/oembed>|><\/oembed>)?(<\/figure>)?(><\/figure>)?(.>)?";
 
             Regex theRegex = new Regex(patternUrl);
 
@@ -53,7 +58,7 @@ namespace LuduStack.Web.Helpers
                 }
                 else
                 {
-                    newText = string.Format(@"<a href=""{0}"" target=""_blank"" style=""font-weight:500"">{0}</a>", url);
+                    newText = string.Format(@"<a href=""{0}"" target=""_blank"" style=""font-weight:500"" rel=""noopener"">{0}</a>", url);
                 }
 
                 if (!string.IsNullOrWhiteSpace(openParenthesis) && !string.IsNullOrWhiteSpace(closeParenthesis))
@@ -109,6 +114,25 @@ namespace LuduStack.Web.Helpers
                 default:
                     return "Check this out!";
             }
+        }
+
+        public static string GetYoutubeVideoId(string url)
+        {
+            var uri = new Uri(url);
+            var query = HttpUtility.ParseQueryString(uri.Query);
+
+            var videoId = string.Empty;
+
+            if (query.AllKeys.Contains("v"))
+            {
+                videoId = query["v"];
+            }
+            else
+            {
+                videoId = uri.Segments.Last();
+            }
+
+            return videoId;
         }
     }
 }

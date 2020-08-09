@@ -16,6 +16,7 @@
 
     function setSelectors() {
         selectors.divCounters = '#divCounters';
+        selectors.divGameIdea = '#divGameIdea';
         selectors.divLatestGames = '#divLatestGames';
         selectors.divActivityFeed = '#divActivityFeed';
         selectors.divPostGame = 'div#divPostGame';
@@ -54,6 +55,8 @@
         bindAll();
 
         loadCounters();
+
+        loadGameIdea();
 
         loadLatestGames();
 
@@ -409,6 +412,12 @@
         MAINMODULE.Ajax.LoadHtml("/home/counters", selectors.divCounters);
     }
 
+    function loadGameIdea() {
+        MAINMODULE.Ajax.LoadHtml("/home/gameidea", selectors.divGameIdea).then(() => {
+            GAMEIDEA.Init();
+        });
+    }
+
     function loadLatestGames() {
         MAINMODULE.Ajax.LoadHtml("/game/latest", selectors.divLatestGames).then(() => {
             //lazyLoadInstance.update();
@@ -437,8 +446,21 @@
         }
 
         if (isXl) {
-            MAINMODULE.Layout.SetStickyElement('#divCounters');
+            MAINMODULE.Layout.SetStickyElement('#stickyLeft', 60, '#leftColumn');
         }
+
+        window.addEventListener('resize', function (e) {
+            $('#stickyLeft').sticky('update');
+            isLg = window.matchMedia('screen and (min-width: 992px)').matches;
+            isXl = window.matchMedia('screen and (min-width: 1200px)').matches;
+
+            if (isXl) {
+                MAINMODULE.Layout.SetStickyElement('#stickyLeft', 60, '#leftColumn');
+            }
+            else {
+                $('#stickyLeft').unstick();
+            }
+        });
     }
 
     return {

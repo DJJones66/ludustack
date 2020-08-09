@@ -1,8 +1,15 @@
-﻿<div id="infobox" class="col-12 p-1">
+﻿@{
+    Layout = null;
+    var version = ViewBag.BuildNumber?.ToString();
+
+    version = version.StartsWith("v") ? version : String.Format("v{0}", version);
+}
+
+<div id="infobox" class="col-12 px-1">
     <div class="box p-3 bg-white">
         <div class="row">
             <div class="col-6 text-capitalize text-nowrap">
-                <h4>@SharedLocalizer["platform"]</h4>
+                <span class="h5">@SharedLocalizer["platform"]</span>
                 <ul class="list-unstyled">
                     <li><a asp-area="" asp-controller="help" asp-action="about">@SharedLocalizer["about"]</a></li>
                     <li><a asp-area="" asp-controller="home" asp-action="timeline">@SharedLocalizer["timeline"]</a></li>
@@ -14,7 +21,7 @@
                 </ul>
             </div>
             <div class="col-6 text-capitalize border-left rounded-0">
-                <h4>@SharedLocalizer["interacting"]</h4>
+                <span class="h5">@SharedLocalizer["interacting"]</span>
                 <ul class="list-unstyled">
                     <li><a asp-area="" asp-controller="help" asp-action="start">@SharedLocalizer["help"]</a></li>
                     <li><a asp-area="gamification" asp-controller="userbadge" asp-action="help">@SharedLocalizer["badges"]</a></li>
@@ -25,13 +32,13 @@
         <div class="row p-2 border-top rounded-0">
             <div class="col-12">
                 <div class="user-social-acount text-center">
-                    <a href="https://www.facebook.com/ludustack" target="_blank" class="mt-1 btn rounded-circle btn-social-icon btn-facebook" rel="noopener noreferrer">
+                    <a href="https://www.facebook.com/ludustack" target="_blank" class="mt-1 btn rounded-circle btn-social-icon btn-facebook" rel="noopener noreferrer" aria-label="Facebook Page">
                         <i class="fab fa-facebook-f" aria-hidden="true"></i>
                     </a>
                     @*<a href="https://www.twitter.com/programad" target="_blank" class="mt-1 btn rounded-circle btn-social-icon btn-twitter" rel="noopener noreferrer">
                         <i class="fab fa-twitter" aria-hidden="true"></i>
                     </a>*@
-                    <a href="https://discord.gg/X5Z8dTH" target="_blank" class="mt-1 btn rounded-circle btn-social-icon btn-discord" rel="noopener noreferrer">
+                    <a href="https://discord.gg/X5Z8dTH" target="_blank" class="mt-1 btn rounded-circle btn-social-icon btn-discord" rel="noopener noreferrer" aria-label="Discord Server">
                         <i class="fab fa-discord" aria-hidden="true"></i>
                     </a>
                 </div>
@@ -46,8 +53,11 @@
             </div>
         </div>
 
-        <div class="col-12 text-center">
-            <a href="#"><small>v@(ViewBag.BuildNumber)</small></a>
-        </div>
+        @if (!string.IsNullOrWhiteSpace(version))
+        {
+            <div class="col-12 text-center">
+                <a href="#"><small>@version</small></a>
+            </div>
+        }
     </div>
 </div>

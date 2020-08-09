@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using LuduStack.Application.ViewModels;
+using LuduStack.Application.Interfaces;
 using LuduStack.Domain.Core.Enums;
 using LuduStack.Domain.Interfaces;
 using LuduStack.Domain.Interfaces.Infrastructure;
@@ -22,6 +22,13 @@ namespace LuduStack.Application.Services
             this.mapper = mapper;
             this.unitOfWork = unitOfWork;
             this.cacheService = cacheService;
+        }
+
+        protected BaseAppService(IBaseAppServiceCommon baseAppServiceCommon)
+        {
+            mapper = baseAppServiceCommon.Mapper;
+            unitOfWork = baseAppServiceCommon.UnitOfWork;
+            cacheService = baseAppServiceCommon.CacheService;
         }
 
         protected MediaType GetMediaType(string featuredImage)
@@ -57,7 +64,7 @@ namespace LuduStack.Application.Services
             return MediaType.Image;
         }
 
-        protected static void SetBasePermissions(Guid currentUserId, UserGeneratedBaseViewModel vm)
+        protected static void SetBasePermissions(Guid currentUserId, IBaseViewModel vm)
         {
             vm.Permissions.CanEdit = vm.UserId == currentUserId;
             vm.Permissions.CanDelete = vm.UserId == currentUserId;

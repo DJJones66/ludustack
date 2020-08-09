@@ -2,17 +2,15 @@
     padding-bottom: 200px;
 }
 
-#featurecontainer .btn {
-    font-size: 15px;
-}
+    #featurecontainer .btn {
+        font-size: 15px;
+    }
 
 #featuresidebar .feature-box {
-    margin-top: 10px;
     border: 1px solid gray;
     min-height: 50px;
     background-color: white;
     padding: 5px;
-    border-radius: 0.25rem;
 }
 
     #featuresidebar .feature-box ul {
@@ -32,7 +30,6 @@
 .feature-item {
     padding: 10px;
     min-height: 140px;
-    border-radius: 0.25rem;
 }
 
     .feature-item.list-item {

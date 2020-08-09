@@ -5,14 +5,8 @@ using LuduStack.Domain.Interfaces.Services;
 
 namespace LuduStack.Application.Interfaces
 {
-    public interface IProfileBaseAppServiceCommon
+    public interface IProfileBaseAppServiceCommon : IBaseAppServiceCommon
     {
-        IMapper Mapper { get; }
-
-        IUnitOfWork UnitOfWork { get; }
-
-        ICacheService CacheService { get; }
-
         IProfileDomainService ProfileDomainService { get; }
     }
 }
